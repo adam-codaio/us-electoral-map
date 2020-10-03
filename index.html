@@ -8,7 +8,21 @@
 </head>
 
 <body>
-  <svg></svg>
+  <style>
+  	.state-abbreviation {
+  		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  		font-size: 11px;
+  		font-weight: bold;
+  		text-anchor: middle;
+  	}
+
+  	.state-votes {
+  		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  		font-size: 11px;
+  		font-weight: bold;
+  		text-anchor: middle;
+  	}
+  </style>
   <script>
 	//<![CDATA[
 
@@ -32,30 +46,83 @@
 				.append("svg")
 				.attr("width", width)
 				.attr("height", height);
-	        
-	// Append div for tooltip to SVG
-	var div = d3.select("body")
-			    .append("div")   
-	    		.attr("class", "tooltip")               
-	    		.style("opacity", 0);
 
-	// Load in my states data!
+	var g = svg.append("g");
+
+	// This isn't IE compatible.
+	var query_params = new URLSearchParams(window.location.search);
+
 	// Load GeoJSON data and merge with states data
 	d3.json("us-states.json", function(json) {
-	  // Bind the data to the SVG and create one path per GeoJSON feature
-	  svg.selectAll("path")
-	    .data(json.features)
-	    .enter()
-	    .append("path")
-	    .attr("d", path)
-	    .style("stroke", "#fff")
-	    .style("stroke-width", "1")
-	    .style("fill", function(d) {
-	      return "rgb(213,222,217)";    
+	  var data = json.features;
+	  d3.tsv("us-states-data.tsv", function(tsv){
+	    var codes = {};
+	   	var votes = {};
+	    var x_offsets = {};
+		var y_offsets = {};
+		var show_label = {};
+		var label_colors ={};
+	    tsv.forEach(function(d,i){
+	      codes[d.name] = d.code;
+	      votes[d.name] = d.votes;
+	   	  x_offsets[d.name] = Number(d.x_offset);
+	      y_offsets[d.name] = Number(d.y_offset);
+	      show_label[d.name] = Boolean(Number(d.show_label));
+	      label_colors[d.name] = d.label_color;
 	    });
+
+	    g.append("g")
+	      .selectAll("path")
+	      .data(data)
+	      .enter()
+	      .append("path")
+	      .attr("d", path)
+	      .attr("stroke", "white")
+	      .attr("fill", function(d) {
+	      	var code = codes[d.properties.name];
+	      	return query_params.get(code) || 'rgb(213, 222, 217)';
+	      });
+	      
+	     g.append("g")
+	      .attr("class", "state-abbreviation")
+	      .selectAll("text")
+	      .data(data.filter(d => show_label[d.properties.name]))
+	      .enter()
+	      .append("svg:text")
+	      .text(function(d){
+	        return codes[d.properties.name];
+	      })
+	      .attr("x", function(d){
+	          return path.centroid(d)[0] + x_offsets[d.properties.name];
+	      })
+	      .attr("y", function(d){
+	          return  path.centroid(d)[1] + y_offsets[d.properties.name];
+	      })
+	      .attr("fill", function(d){
+	      	return label_colors[d.properties.name] || 'white';
+	      });
+
+	     g.append("g")
+	      .attr("class", "state-votes")
+	      .selectAll("text")
+	      .data(data.filter(d => show_label[d.properties.name]))
+	      .enter()
+	      .append("svg:text")
+	      .text(function(d){
+	        return votes[d.properties.name];
+	      })
+	      .attr("x", function(d){
+	          return path.centroid(d)[0] + x_offsets[d.properties.name];
+	      })
+	      .attr("y", function(d){
+	          return  path.centroid(d)[1] + y_offsets[d.properties.name];
+	      })
+	      .attr("dy", 11)
+	      .attr("fill", function(d){
+	      	return label_colors[d.properties.name] || 'white';
+	      });
+	  });
 	});
-
-
 
   //]]>
   </script>

@@ -1,0 +1,52 @@
+id	code	name	votes	x_offset	y_offset	show_label	label_color
+1	AL	Alabama	9	0	0	1	white
+2	AK	Alaska	3	0	-7	1	white
+3	AZ	Arizona	11	0	0	1	white
+4	AR	Arkansas	6	0	0	1	white
+5	CA	California	55	-5	0	1	white
+6	CO	Colorado	9	0	0	1	white
+7	CT	Connecticut	7	0	0	0	white
+8	DE	Delaware	3	0	0	0	white
+9	DC	District of Columbia	3	0	0	0	white
+10	FL	Florida	29	12	0	1	white
+11	GA	Georgia	16	0	0	1	white
+12	HI	Hawaii	4	-5	7	1	black
+13	ID	Idaho	4	0	0	1	white
+14	IL	Illinois	20	0	-3	1	white
+15	IN	Indiana	11	0	-3	1	white
+16	IA	Iowa	6	0	0	1	white
+17	KS	Kansas	6	0	0	1	white
+18	KY	Kentucky	8	7	-2	1	white
+19	LA	Louisiana	8	-9	0	1	white
+20	ME	Maine	4	0	0	1	white
+21	MD	Maryland	10	0	0	0	white
+22	MA	Massachusetts	11	0	0	0	white
+23	MI	Michigan	16	8	10	1	white
+24	MN	Minnesota	10	0	0	1	white
+25	MS	Mississippi	6	0	0	1	white
+26	MO	Missouri	10	0	0	1	white
+27	MT	Montana	3	0	0	1	white
+28	NE	Nebraska	5	0	0	1	white
+29	NV	Nevada	6	0	0	1	white
+30	NH	New Hampshire	4	0	2	1	white
+31	NJ	New Jersey	14	0	0	0	white
+32	NM	New Mexico	5	0	0	1	white
+33	NY	New York	29	0	0	1	white
+34	NC	North Carolina	15	5	0	1	white
+35	ND	North Dakota	3	0	0	1	white
+36	OH	Ohio	18	0	0	1	white
+37	OK	Oklahoma	7	0	0	1	white
+38	OR	Oregon	7	0	0	1	white
+39	PA	Pennsylvania	20	2	-2	1	white
+40	RI	Rhode Island	4	0	0	0	white
+41	SC	South Carolina	9	0	0	1	white
+42	SD	South Dakota	3	0	0	1	white
+43	TN	Tennessee	11	0	0	1	white
+44	TX	Texas	38	0	0	1	white
+45	UT	Utah	6	0	0	1	white
+46	VT	Vermont	3	0	-4	1	white
+47	VA	Virginia	13	5	0	1	white
+48	WA	Washington	12	0	0	1	white
+49	WV	West Virginia	5	-2	0	1	white
+50	WI	Wisconsin	10	0	0	1	white
+51	WY	Wyoming	3	0	0	1	white
