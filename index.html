@@ -9,18 +9,24 @@
 
 <body>
   <style>
-  	.state-abbreviation {
-  		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  	body {
+  		margin: 0;
+		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   		font-size: 11px;
   		font-weight: bold;
   		text-anchor: middle;
   	}
 
-  	.state-votes {
-  		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  		font-size: 11px;
-  		font-weight: bold;
-  		text-anchor: middle;
+  	.no-label-votes {
+  		color: white;
+  		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		height: 20px;
+  		width: 20px
+  	}
+
+  	.no-label-abbreviation {
   	}
   </style>
   <script>
@@ -28,7 +34,7 @@
 
 
 	//Width and height of map
-	var width = 850;
+	var width = 800;
 	var height = 650;
 
 	// D3 Projection
@@ -121,6 +127,32 @@
 	      .attr("fill", function(d){
 	      	return label_colors[d.properties.name] || 'white';
 	      });
+
+	     var no_label_states = ['Massachusetts', 'Rhode Island', 'Connecticut', 'New Jersey', 'Delaware', 'Maryland', 'District of Columbia'];
+	     var table_content = '';
+	     no_label_states.forEach(d => {
+	     	var code = codes[d];
+	     	var vote = votes[d];
+	     	table_content += `
+				<tr>
+  					<td><div class="no-label-votes" style="background-color:${query_params.get(code) || 'rgb(213, 222, 217)'}">${vote}</div></td>
+  					<td><span class="no-label-abbreviation">${code}</span></td>
+  				</tr>
+	     	`
+	     });
+ 		 svg.append("foreignObject")
+		  .attr("width", 100)
+		  .attr("height", 200)
+		  .attr("x", 710)
+		  .attr("y", 275)
+		  .append("xhtml:div")
+		  .html(`
+		  	<table>
+		  		<tbody>
+		  			${table_content}
+		  		</tbody>
+		  	</table>
+		  `);
 	  });
 	});
 
