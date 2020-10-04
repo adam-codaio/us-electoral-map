@@ -58,6 +58,30 @@
 	// This isn't IE compatible.
 	var query_params = new URLSearchParams(window.location.search);
 
+	var split_states = [{code: 'ME', districts: 2}, {code: 'NE', districts: 3}];
+	var pattern_defs = svg.append("defs");
+	split_states.forEach(function(state) {
+		var codes = [state.code];
+		for (var i = 0; i < state.districts; i++) {
+			codes.push(`${state.code}-${i + 1}`);
+		}
+		var pattern = pattern_defs
+			.append("pattern")
+			.attr({id: state.code, width: 30, height: 20, patternUnits: "userSpaceOnUse", patternTransform: "rotate(-35)"});
+		codes.forEach((code, index) => {
+			pattern
+				.append("rect")
+				.attr({width: 10, height: 20, y: 0, x: index * 10, fill: getColor(code, false)});
+		});
+	});
+
+	function getColor(code, usePattern = true) {
+		if (usePattern && (code === 'ME' || code === 'NE')) {
+			return `url(#${code})`;
+		}
+		return query_params.get(code) || 'rgb(213, 222, 217)';
+	}
+
 	// Load GeoJSON data and merge with states data
 	d3.json("us-states.json", function(json) {
 	  var data = json.features;
@@ -86,7 +110,7 @@
 	      .attr("stroke", "white")
 	      .attr("fill", function(d) {
 	      	var code = codes[d.properties.name];
-	      	return query_params.get(code) || 'rgb(213, 222, 217)';
+	      	return getColor(code);
 	      });
 	      
 	     g.append("g")
@@ -135,7 +159,7 @@
 	     	var vote = votes[d];
 	     	table_content += `
 				<tr>
-  					<td><div class="no-label-votes" style="background-color:${query_params.get(code) || 'rgb(213, 222, 217)'}">${vote}</div></td>
+  					<td><div class="no-label-votes" style="background-color:${getColor(code)}">${vote}</div></td>
   					<td><span class="no-label-abbreviation">${code}</span></td>
   				</tr>
 	     	`
